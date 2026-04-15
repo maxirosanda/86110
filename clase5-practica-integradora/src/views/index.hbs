@@ -1,4 +1,3 @@
-<h1>Ecommerce Maxi</h1>
 
 <section class="cardsProducts">
   {{#each products}}
@@ -6,8 +5,11 @@
         <h3 class="cardProduct-title">{{this.title}}</h3>
         <p class="cardProduct-description">{{this.description}}</p>
         <small class="cardProduct-category">Categoria: {{this.category}}</small>
-        <span class="cardProduct-priceAndStock">Precio: {{this.price}} Stock: {{this.stock}}</span>
+        <span class="cardProduct-priceAndStock">Precio: ${{this.price}} Stock: {{this.stock}}</span>
         <button>Agregar al carrito</button>
     </div>
   {{/each}}
 </section>
+
+
+

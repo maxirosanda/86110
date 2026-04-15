@@ -1,0 +1,96 @@
+<div class="containerFormCreateProduct">
+
+    <form id="createForm" class="form">
+        <input type="text" name="title" id="title" placeholder="title" required>
+        <input type="text" name="description" id="description" placeholder="description" required>
+        <input type="number" name="price" id="price" placeholder="price" required>
+        <input type="number" name="stock" id="stock" placeholder="stock" required>
+        <input type="text" name="category" id="category" placeholder="category" required>
+        <button type="submit">Crear</button>
+</form>
+</div>
+<section id="cardsProducts" class="cardsProducts">
+        {{#each products}}
+            <div class="cardProduct">
+                    <label>Nombre</label>
+                    <input class="cardProduct-title"  value="{{this.title}}">
+                    <label>Descripcion</label>
+                    <input class="cardProduct-description"  value="{{this.description}}">
+                    <label>Categoria</label>
+                    <input class="cardProduct-category"  value="{{this.category}}">
+                    <label>Precio</label>
+                    <input class="cardProduct-price"  value="{{this.price}}">
+                    <label>Stock</label>
+                    <input class="cardProduct-stock"  value="{{this.stock}}">
+                    <button class="updateBtn" id="{{this._id}}">actualizar</button>
+                    <button class="deleteBtn" id="{{this._id}}">borrar</button>
+            </div>
+        {{/each}}
+</section>
+
+<script>
+    const createForm = document.getElementById("createForm")
+    createForm.addEventListener("submit",async (e) => {
+        e.preventDefault()
+        const data = {
+            title:document.getElementById("title").value,
+            description:document.getElementById("description").value,
+            price:document.getElementById("price").value,
+            stock:document.getElementById("stock").value,
+            category:document.getElementById("category").value
+        }
+        const response = await fetch("/api/products",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(data)
+        })
+        const result = await response.json()
+        if(result.message === "product created"){
+            document.location.reload()
+        }
+    })
+</script>
+
+<script>
+    const cardsProducts = document.getElementById("cardsProducts")
+    cardsProducts.addEventListener("click",async (e) => {
+      if(e.target.className === "deleteBtn"){
+        const id = e.target.id
+        fetch(`/api/products`,{
+            method:"DELETE",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({id})
+        })
+        document.location.reload()
+      }
+    })
+
+    cardsProducts.addEventListener("click",async (e) => {
+      if(e.target.className === "updateBtn"){
+        const id = e.target.id
+        const data = {
+            title:e.target.parentElement.querySelector(".cardProduct-title").value,
+            description:e.target.parentElement.querySelector(".cardProduct-description").value,
+            price:e.target.parentElement.querySelector(".cardProduct-price").value,
+            stock:e.target.parentElement.querySelector(".cardProduct-stock").value,
+            category:e.target.parentElement.querySelector(".cardProduct-category").value
+        }
+        fetch(`/api/products`,{
+            method:"PUT",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({id,data})
+        })
+        document.location.reload()
+      }
+    })
+</script>
+
+
+
+

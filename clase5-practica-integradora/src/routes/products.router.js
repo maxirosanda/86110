@@ -36,8 +36,31 @@ router.post("/",async (req,res)=>{
             category
         }
         const productCreated = await productsModel.create(product)
-        res.json(productCreated)
+        res.json({message:"product created",productCreated})
         
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+
+router.delete("/",async (req,res)=>{
+    const {id} = req.body
+    try {
+        if(!id) return res.json({message:"id required"})
+        const productDeleted = await productsModel.findByIdAndDelete(id)
+        res.json({message:"product deleted",productDeleted})
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+
+router.put("/",async (req,res)=>{
+    const {id,data} = req.body
+    console.log(id,data)
+    try {
+        if(!id) return res.json({message:"id required"})
+        const productUpdated = await productsModel.findByIdAndUpdate(id,data,{new:true})
+        res.json({message:"product updated",productUpdated})
     } catch (error) {
         res.status(500).json(error)
     }

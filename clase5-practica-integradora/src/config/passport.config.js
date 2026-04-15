@@ -45,7 +45,13 @@ const cookieExtractor = req => req && req.cookies ? req.cookies["coderPracticaIn
                 password: createHash(password)
             }
             await userModel.create(newUser) 
-            return done(null,{email:userName,firstName,lastName,age})
+            const user = {  email:userName,
+                            firstName,
+                            lastName,
+                            age,
+                            role:"user"
+            }
+            return done(null,user)
         } catch (error) {
             return done(error)
         }
@@ -64,7 +70,8 @@ const cookieExtractor = req => req && req.cookies ? req.cookies["coderPracticaIn
                     email:userName,
                     firstName:userFinted.firstName,
                     lastName:userFinted.lastName,
-                    age:userFinted.age
+                    age:userFinted.age,
+                    role:userFinted.role
                 }
                 return done(null,user)
             } catch (error) {
