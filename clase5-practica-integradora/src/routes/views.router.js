@@ -1,11 +1,11 @@
 import { Router } from "express";
 import productsModel from "../models/products.model.js";
-import { authUser,authAdmin,authPublic } from "../middlewares/authorization.js";
-import { passportCall,passportCallPublic } from "../utils/passportCall.js";
+import { authUserHbs, authAdminHbs } from "../middlewares/authorization.js";
+import { passportCallHbs,passportCallHbsPublic } from "../utils/passportCall.js";
 
 const router = Router()
 
-router.get("/",passportCall("jwt"),authUser,async (req,res)=>{
+router.get("/",passportCallHbs("jwt"),authUserHbs,async (req,res)=>{
     try {
         const products = await productsModel.find().lean()
         res.render("index",{products,navbar:true})
@@ -14,18 +14,22 @@ router.get("/",passportCall("jwt"),authUser,async (req,res)=>{
     }
 })
 
-router.get("/register",passportCallPublic("jwt"),authPublic,(req,res)=>{
+router.get("/register",passportCallHbsPublic("jwt"),(req,res)=>{
     return res.render("register",{navbar:false}) 
 })
 
-router.get("/login",passportCallPublic("jwt"),authPublic,(req,res)=>{
+router.get("/login",passportCallHbsPublic("jwt"),(req,res)=>{
     return res.render("login",{navbar:false}) 
 
 })
 
-router.get("/create-product",passportCall("jwt"),authAdmin,async (req,res)=>{
+router.get("/create-product",passportCallHbs("jwt"),authAdminHbs,async (req,res)=>{
     const products = await productsModel.find().lean()
     return res.render("create-product",{products,navbar:true}) 
+})
+
+router.get(/.*/,(req,res)=>{
+    return res.render("not-found")
 })
 
 export default router

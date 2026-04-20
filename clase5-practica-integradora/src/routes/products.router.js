@@ -1,11 +1,12 @@
 import { Router } from "express";
 import productsModel from "../models/products.model.js";
-import { authUser } from "../middlewares/authorization.js";
-import { passportCall } from "../utils/passportCall.js";
+import { authUserApi, authAdminApi } from "../middlewares/authorization.js";
+import { passportCallApi } from "../utils/passportCall.js";
+
 
 const router = Router()
 
-router.get("/",passportCall("jwt"),authUser,async (req,res)=>{
+router.get("/",passportCallApi("jwt"),authUserApi,async (req,res)=>{
     try {
         const products = await productsModel.find({})
         res.json(products)
