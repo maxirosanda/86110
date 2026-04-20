@@ -1,7 +1,7 @@
 import { Router } from "express";
 import productsModel from "../models/products.model.js";
-import { authUser,authAdmin } from "../middlewares/authorization.js";
-import { passportCall } from "../utils/passportCall.js";
+import { authUser,authAdmin,authPublic } from "../middlewares/authorization.js";
+import { passportCall,passportCallPublic } from "../utils/passportCall.js";
 
 const router = Router()
 
@@ -14,11 +14,11 @@ router.get("/",passportCall("jwt"),authUser,async (req,res)=>{
     }
 })
 
-router.get("/register",(req,res)=>{
+router.get("/register",passportCallPublic("jwt"),authPublic,(req,res)=>{
     return res.render("register",{navbar:false}) 
 })
 
-router.get("/login",(req,res)=>{
+router.get("/login",passportCallPublic("jwt"),authPublic,(req,res)=>{
     return res.render("login",{navbar:false}) 
 
 })
