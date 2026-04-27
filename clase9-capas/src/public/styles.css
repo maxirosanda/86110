@@ -1,0 +1,90 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: red;
+    color: #fff;
+}
+
+.logoutBtn{
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: red;
+    color: #fff;
+}
+
+.cardsProducts{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+}
+
+.cardProduct{
+    border: 1px solid;
+    border-radius: 5px;
+    width: 350px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cardProduct button{
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: red;
+    color: #fff;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 15px;
+    width: 250px;
+}
+
+.form input{
+    padding: 5px;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+.form button{
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: red;
+    color: #fff;
+}
+
+.containerForm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.containerFormCreateProduct{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
