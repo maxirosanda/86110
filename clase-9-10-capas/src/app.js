@@ -1,7 +1,6 @@
 import express from "express"
 import dotenv from "dotenv"
 import productsRouter from "./routes/products.router.js"
-import mongoose from "mongoose"
 import { engine } from "express-handlebars"
 import viewsRouter from "./routes/views.router.js"
 import path from 'path';
@@ -11,7 +10,6 @@ import passport from "passport"
 import userRouter from "./routes/user.router.js"
 import cookieParser from "cookie-parser"
 import cors from "cors"
-import { MongoConnect } from "./config/mongoConnect.config.js"
 
 dotenv.config()
 
@@ -45,6 +43,6 @@ app.use("/api/users",userRouter)
 app.use("/",viewsRouter)
 
 
-  MongoConnect.getInstance()
+  
 
 app.listen(process.env.PORT,()=> console.log('server in port: ' + process.env.PORT ))

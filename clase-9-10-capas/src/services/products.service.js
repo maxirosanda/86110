@@ -1,8 +1,8 @@
-import productsModel from "../models/products.model.js";
+import { productsDao } from "../daos/index.js"
 
 export const getAllProductsService = async () => {
     try {
-        const products = await productsModel.find({}) 
+        const products = await productsDao.getAll() 
         return [null,products]
     } catch (error) {
         return [error,null]
@@ -11,17 +11,8 @@ export const getAllProductsService = async () => {
 
 export const createProductService = async ({title,price,description,stock,category}) => {
     try {
-        const productExist = await productsModel.findOne({title})
-        if(productExist) return ["product exist",null]
 
-        const product = {
-            title,
-            price,
-            description,
-            stock,
-            category
-        }
-        const productCreated = await productsModel.create(product)
+        const productCreated = await productsDao.create(title,price,description,stock,category)
         return [null,productCreated]
     } catch (error) {
         return [error,null] 
@@ -30,7 +21,7 @@ export const createProductService = async ({title,price,description,stock,catego
 
 export const deleteProductService = async (id) => {
     try {
-        const productDeleted = await productsModel.findByIdAndDelete(id)
+        const productDeleted = await productsDao.findByIdAndDelete(id)
         return [null,productDeleted]
     } catch (error) {
         return [error,null]
@@ -39,7 +30,7 @@ export const deleteProductService = async (id) => {
 
 export const updateProductService = async (id,data) => {
     try {
-        const productUpdated = await productsModel.findByIdAndUpdate(id,data,{new:true})
+        const productUpdated = await productsDao.findByIdAndUpdate(id,data)
         return [null,productUpdated]
     } catch (error) {
         return [error,null]

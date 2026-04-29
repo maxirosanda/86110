@@ -9,6 +9,9 @@ const userSchema = mongoose.Schema({
         type:String,
         required:true
     },
+    fullName:{
+        type:String,
+    },
      age:{
         type:String,
         required:true

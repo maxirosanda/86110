@@ -6,7 +6,7 @@ import { getProducts, createProduct, deleteProduct, updateProduct } from "../con
 
 const router = Router()
 
-router.get("/",passportCallApi("jwt"),authUserApi,getProducts)
+router.get("/",getProducts)
 router.post("/",createProduct)
 router.delete("/",deleteProduct)
 router.put("/",updateProduct)
