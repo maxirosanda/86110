@@ -1,4 +1,4 @@
-import {productDao} from '../dao/index.js';
+import { productDao } from '../dao/products/index.js';
 
 export const getAll = async () => {
     const [error, products] = await productDao.getAll();
@@ -7,4 +7,12 @@ export const getAll = async () => {
     }
     return [null, products];
 
+}
+
+export const create = async (product) => {
+    const [error, productCreated] = await productDao.create(product);
+    if (error) {
+        return [error, null];
+    }
+    return [null, productCreated];
 }

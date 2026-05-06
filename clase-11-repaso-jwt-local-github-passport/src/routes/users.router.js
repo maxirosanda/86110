@@ -1,12 +1,14 @@
 import { Router } from 'express';
-import { registerUser, loginUser, errorUser, logoutUser } from '../controllers/users.controller.js';
-import passport from 'passport';
+import { registerUser, loginUser, logoutUser, githubCallback } from '../controllers/users.controller.js';
+
+import { customPassport } from '../utils/customPassport.js';
 
 const router = Router();
 
-router.post('/register', passport.authenticate('register', { session: false, failureRedirect: '/api/users/error' }), registerUser);
-router.post('/login', passport.authenticate('login', { session: false, failureRedirect: '/api/users/error' }), loginUser);
-router.get('/error', errorUser)
+router.post('/register', customPassport('register'), registerUser);
+router.post('/login', customPassport('login'), loginUser);
 router.get('/logout', logoutUser);
+router.get('/github', customPassport('github'));
+router.get('/github-callback', customPassport('github'), githubCallback);
 
 export default router;

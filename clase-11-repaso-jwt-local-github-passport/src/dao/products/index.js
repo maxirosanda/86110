@@ -1,5 +1,5 @@
 // patron Factory
-import "../config/dotenv.config.js";
+import "../../config/dotenv.config.js";
 
 export let productDao;
 

@@ -1,0 +1,1 @@
+agregar bien el product a la lista de favoritos
