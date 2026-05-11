@@ -9,4 +9,11 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/reset-password/:code", (req, res) => {
+    const { code } = req.params;
+    res.render("reset-password", {
+        code,
+    });
+});
+
 export default router;
