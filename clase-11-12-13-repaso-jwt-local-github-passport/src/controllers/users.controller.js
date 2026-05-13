@@ -2,9 +2,9 @@ import { generateToken } from "../utils/jsonWebToken.utils.js";
 import {User} from "../models/user.model.js";
 import crypto from 'crypto';
 import { transporter } from "../config/nodemailer.config.js";
-import path from 'path';
+import { createHash} from "../utils/bcript.util.js";
 
-const __dirname = path.resolve();
+
 
 export const registerUser = (req, res) => {
     res.json({ message: 'User registered successfully'});
@@ -54,13 +54,30 @@ export const sendRecoveryMailUser = async (req, res) => {
 export const resetPasswordUser = async (req, res) => {
     const { code } = req.params;
     const {newPassword} = req.body;
+
+    if(!code){
+        return res.status(400).json({ message: 'Code is required' });
+    }
+
+    if(!newPassword){
+        return res.status(400).json({ message: 'New password is required' });
+    }
+
+    if(newPassword.length < 8){
+        return res.status(400).json({ message: 'New password must be at least 8 characters long' });
+    }
     
     const user = await User.findOne({ resetPasswordCode: code});
     if(!user){
         return res.status(404).json({ message: 'User not found' });
     }
+    if(user.resetPasswordCodeExpires < Date.now()){
+        await User.updateOne({ email:user.email }, { resetPasswordCode:null, resetPasswordCodeExpires:null });
+        return res.status(401).json({ message: 'Code expired' });
+    }
     try {
-        await User.updateOne({ email:user.email }, { password:newPassword, resetPasswordCode:null, resetPasswordCodeExpires:null });
+        const hashedPassword = await createHash(newPassword);
+        await User.updateOne({ email:user.email }, { password:hashedPassword, resetPasswordCode:null, resetPasswordCodeExpires:null });
     } catch (error) {
         return res.status(500).json({ message: 'Internal server error' });
     }

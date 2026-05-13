@@ -1,0 +1,38 @@
+
+<h1>Productos</h1>
+<ul class="containerProduct">
+    {{#each products}}
+    <li>Titulo: {{this.title}} - Precio: {{this.price}} - Stock: {{this.stock}} 
+        <button data-id="{{this._id}}">Agregar a favoritos</button>
+    </li>
+    {{/each}}
+</ul>
+
+<script type="module">
+    
+    const container = document.querySelector('.containerProduct');
+
+    container.addEventListener('click', async (e) => {
+        if(e.target.tagName === 'BUTTON'){
+            const productId = e.target.dataset.id;
+            try {
+                const response = await fetch(`/api/favorites/${productId}`,{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                const data = await response.json();
+                if(data.message){
+                    console.log(data.message);
+                }
+                if(data.error){
+                    console.log({error: data.error.message});
+                }
+            } catch (error) {
+                console.log({error: error.message});
+            }
+        }
+    })
+    
+</script>
